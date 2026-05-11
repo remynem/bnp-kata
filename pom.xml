@@ -5,28 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.booking</groupId>
-<<<<<<< HEAD
-    <artifactId>booking-tests</artifactId>
-    <version>1.0-SNAPSHOT</version>
-=======
     <artifactId>API_Testing_Kata</artifactId>
     <version>1.0.0</version>
->>>>>>> 1f3f53f5fcdef385f2042cd4db29ca21b97633fd
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-<<<<<<< HEAD
-    </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>io.cucumber</groupId>
-            <artifactId>cucumber-java</artifactId>
-            <version>7.22.2</version>
-            <scope>test</scope>
-=======
         <cucumber.version>7.22.2</cucumber.version>
         <junit.platform.version>1.12.2</junit.platform.version>
         <junit.jupiter.version>5.12.2</junit.jupiter.version>
@@ -40,32 +25,10 @@
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-java</artifactId>
             <version>${cucumber.version}</version>
->>>>>>> 1f3f53f5fcdef385f2042cd4db29ca21b97633fd
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-junit</artifactId>
-<<<<<<< HEAD
-            <version>7.22.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <version>5.5.2</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>2.17.2</version>
-=======
             <version>${cucumber.version}</version>
         </dependency>
         <dependency>
@@ -109,18 +72,11 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
             <version>${jackson.version}</version>
->>>>>>> 1f3f53f5fcdef385f2042cd4db29ca21b97633fd
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
-<<<<<<< HEAD
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.22.2</version>
-=======
             <!-- Run tests with Maven Surefire -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -131,7 +87,6 @@
                         <include>**/CucumberRunner.java</include>
                     </includes>
                 </configuration>
->>>>>>> 1f3f53f5fcdef385f2042cd4db29ca21b97633fd
             </plugin>
         </plugins>
     </build>
