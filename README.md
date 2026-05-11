@@ -1,6 +1,7 @@
 # Booking API Tests
 
-API tests for the restful-booker platform, written by Remy Ishimwe.
+API tests for the restful-booker platform, written by Rémy Ishimwe.
+Make it clean :-)
 
 ## Stack
 
@@ -26,3 +27,7 @@ mvn test
 
 The API resets every 10 minutes so tests create their own data before each scenario.
 Unauthenticated scenarios assert the response is not 200 since the exact error code isn't documented.
+
+## Favorites
+@Then("the API status is UP")
+assertThat(response.jsonPath().getString("status"), equalToIgnoringCase("UP"));
