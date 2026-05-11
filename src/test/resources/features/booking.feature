@@ -6,7 +6,7 @@ Feature: Booking API tests
     And the response contains a token
 
   Scenario: Login fails with wrong password
-    When I login with username "admin" and password "wrongpassword"
+    When I login with username "admin" and password "ishimweeeeeee-test"
     Then the status code is 401
 
   Scenario: Health endpoint returns UP
@@ -25,7 +25,7 @@ Feature: Booking API tests
     Then the status code is 400
 
   Scenario: Create a booking with a firstname that is too long
-    When I create a booking with firstname "Johnnnnnnnnnnnnnnnnn"
+    When I create a booking with firstname "Remyyyyyyyyyyyyyyyyyyyyy"
     Then the status code is 400
 
   Scenario: Get a booking when authenticated
