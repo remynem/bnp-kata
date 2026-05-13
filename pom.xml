@@ -50,10 +50,31 @@
     </dependencies>
     <build>
         <plugins>
-            <plugin>
+                <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
+            </plugin>
+            <!-- Generates model classes from JSON Schema — run: mvn generate-sources -->
+            <plugin>
+                <groupId>org.jsonschema2pojo</groupId>
+                <artifactId>jsonschema2pojo-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <configuration>
+                    <sourceDirectory>${basedir}/src/test/resources/schemas</sourceDirectory>
+                    <targetPackage>com.booking.model</targetPackage>
+                    <sourceType>jsonschema</sourceType>
+                    <generateBuilders>true</generateBuilders>
+                    <includeAdditionalProperties>false</includeAdditionalProperties>
+                    <outputDirectory>${project.build.directory}/generated-sources/jsonschema2pojo</outputDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
