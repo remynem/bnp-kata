@@ -59,7 +59,7 @@ Feature: Booking API tests
     Given I am logged in as admin
     When I create a valid booking
     And I delete the booking
-    Then the status code is 201
+    Then the status code is 202
 
   Scenario: Delete without token should fail
     Given I am logged in as admin

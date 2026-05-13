@@ -21,14 +21,26 @@ public class BookingSteps {
     static {
         RestAssured.baseURI = "https://automationintesting.online/api";
     }
+    // 840 unique year-month slots (70 years × 12 months).
+    // base shifts by the current second, so runs started at different seconds
+    // never share the same slot. The API resets every 10 min (600s < 840s),
+    // so collisions with data from a previous reset window can't happen.
+    private static final java.util.concurrent.atomic.AtomicInteger callCounter =
+            new java.util.concurrent.atomic.AtomicInteger(0);
+
     private Booking createTestBooking() {
-        String suffix = String.valueOf(System.currentTimeMillis()).substring(8);
+        int base = (int) (System.currentTimeMillis() / 1000 % 840);
+        int slot = (base + callCounter.getAndIncrement()) % 840;
+        int year = 2030 + slot / 12;
+        int month = slot % 12 + 1;
         Booking b = new Booking();
         b.roomid = 2;
         b.firstname = "John";
         b.lastname = "Doe";
         b.depositpaid = true;
-        b.bookingdates = new BookingDates("2028-03-01", "2028-03-05");
+        b.bookingdates = new BookingDates(
+                String.format("%d-%02d-01", year, month),
+                String.format("%d-%02d-05", year, month));
         b.email = "john@example.com";
         b.phone = "12345678901";
         return b;
@@ -157,7 +169,12 @@ public class BookingSteps {
 
     @Then("the booking has firstname {string}")
     public void theBookingHasFirstname(String expected) {
-        assertThat(response.jsonPath().getString("firstname"), equalTo(expected));
+        // GET returns firstname at root; PUT wraps it under "booking"
+        String actual = response.jsonPath().getString("firstname");
+        if (actual == null) {
+            actual = response.jsonPath().getString("booking.firstname");
+        }
+        assertThat(actual, equalTo(expected));
     }
 
     @Then("the API status is UP")
