@@ -4,6 +4,7 @@ Feature: Booking API tests
     When I login with username "admin" and password "password"
     Then the status code is 200
     And the response contains a token
+    And the response matches the "auth-response" schema
 
   Scenario: Login fails with wrong password
     When I login with username "admin" and password "wrongpassword"
@@ -13,11 +14,13 @@ Feature: Booking API tests
     When I check the health endpoint
     Then the status code is 200
     And the API status is UP
+    And the response matches the "health-response" schema
 
   Scenario: Create a booking with valid data
     When I create a valid booking
     Then the status code is 201
     And the response has a bookingid
+    And the response matches the "booking-response" schema
 
   # firstname has to be between 3 and 18 chars
   Scenario: Create a booking with a firstname that is too short
@@ -34,6 +37,7 @@ Feature: Booking API tests
     And I get the booking
     Then the status code is 200
     And the booking has firstname "John"
+    And the response matches the "booking-response" schema
 
   # not sure if it returns 401 or 403, but should not be 200
   Scenario: Get a booking without a token should fail

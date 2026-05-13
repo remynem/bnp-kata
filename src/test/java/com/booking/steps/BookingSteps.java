@@ -10,6 +10,7 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
@@ -180,5 +181,10 @@ public class BookingSteps {
     @Then("the API status is UP")
     public void theApiStatusIsUp() {
         assertThat(response.jsonPath().getString("status"), equalToIgnoringCase("UP"));
+    }
+
+    @Then("the response matches the {string} schema")
+    public void theResponseMatchesSchema(String schemaName) {
+        response.then().body(matchesJsonSchemaInClasspath("schemas/" + schemaName + ".json"));
     }
 }
