@@ -33,5 +33,8 @@ Unauthenticated scenarios assert the response is not 200 since the exact error c
 ![Test results](docs/test-results.png)
 
 ## Favorites
+
+```java
 @Then("the API status is UP")
 assertThat(response.jsonPath().getString("status"), equalToIgnoringCase("UP"));
+```
