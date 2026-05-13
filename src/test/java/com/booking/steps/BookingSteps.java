@@ -7,7 +7,6 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
@@ -19,18 +18,17 @@ public class BookingSteps {
     private Response response;
     private String token;
     private int bookingId;
-
     static {
-        RestAssured.baseURI = ApiConfig.BASE_URL;
+        RestAssured.baseURI = "https://automationintesting.online/api";
     }
-
     private Booking createTestBooking() {
+        String suffix = String.valueOf(System.currentTimeMillis()).substring(8);
         Booking b = new Booking();
-        b.roomid = 1;
+        b.roomid = 2;
         b.firstname = "John";
         b.lastname = "Doe";
         b.depositpaid = true;
-        b.bookingdates = new BookingDates("2026-11-01", "2026-11-05");
+        b.bookingdates = new BookingDates("2028-03-01", "2028-03-05");
         b.email = "john@example.com";
         b.phone = "12345678901";
         return b;
@@ -39,9 +37,9 @@ public class BookingSteps {
     @Given("I am logged in as admin")
     public void iAmLoggedInAsAdmin() {
         response = given()
-                .contentType(ContentType.JSON)
+                .contentType("application/json")
                 .body("{\"username\":\"" + ApiConfig.USERNAME + "\",\"password\":\"" + ApiConfig.PASSWORD + "\"}")
-                .post("/auth/login");
+                .post(ApiConfig.BASE_URL + "/auth/login");
 
         token = response.jsonPath().getString("token");
     }
@@ -49,24 +47,24 @@ public class BookingSteps {
     @When("I login with username {string} and password {string}")
     public void iLoginWith(String username, String password) {
         response = given()
-                .contentType(ContentType.JSON)
+                .contentType("application/json")
                 .body("{\"username\":\"" + username + "\",\"password\":\"" + password + "\"}")
-                .post("/auth/login");
+                .post(ApiConfig.BASE_URL + "/auth/login");
     }
 
     @When("I check the health endpoint")
     public void iCheckTheHealthEndpoint() {
-        response = given().get("/booking/actuator/health");
+        response = given().get(ApiConfig.BASE_URL + "/booking/actuator/health");
     }
 
     @When("I create a valid booking")
     public void iCreateAValidBooking() {
         response = given()
-                .contentType(ContentType.JSON)
+                .contentType("application/json")
                 .body(createTestBooking())
-                .post("/booking");
+                .post(ApiConfig.BASE_URL + "/booking");
 
-        if (response.getStatusCode() == 200) {
+        if (response.getStatusCode() == 200 || response.getStatusCode() == 201) {
             bookingId = response.jsonPath().getInt("bookingid");
         }
     }
@@ -77,39 +75,41 @@ public class BookingSteps {
         b.firstname = firstname;
 
         response = given()
-                .contentType(ContentType.JSON)
+                .contentType("application/json")
                 .body(b)
-                .post("/booking");
+                .post(ApiConfig.BASE_URL + "/booking");
     }
 
     @When("I get the booking")
     public void iGetTheBooking() {
         response = given()
                 .cookie("token", token)
-                .get("/booking/" + bookingId);
+                .get(ApiConfig.BASE_URL + "/booking/" + bookingId);
     }
 
     @When("I get the booking without a token")
     public void iGetTheBookingWithoutToken() {
-        response = given().get("/booking/" + bookingId);
+        response = given().get(ApiConfig.BASE_URL + "/booking/" + bookingId);
     }
 
     @When("I update the booking")
     public void iUpdateTheBooking() {
         // updating with different name and dates to verify it actually changes
+        String suffix = String.valueOf(System.currentTimeMillis()).substring(8);
         Booking b = createTestBooking();
         b.firstname = "Jane";
         b.lastname = "Smith";
         b.depositpaid = false;
-        b.bookingdates = new BookingDates("2026-12-01", "2026-12-07");
+        b.bookingdates = new BookingDates("2027-0" + (suffix.charAt(0) % 9 + 1) + "-10",
+                "2027-0" + (suffix.charAt(0) % 9 + 1) + "-15");
         b.email = "jane@example.com";
         b.phone = "09876543210";
 
         response = given()
-                .contentType(ContentType.JSON)
+                .contentType("application/json")
                 .cookie("token", token)
                 .body(b)
-                .put("/booking/" + bookingId);
+                .put(ApiConfig.BASE_URL + "/booking/" + bookingId);
     }
 
     @When("I update the booking without a token")
@@ -118,21 +118,21 @@ public class BookingSteps {
         b.firstname = "Jane";
 
         response = given()
-                .contentType(ContentType.JSON)
+                .contentType("application/json")
                 .body(b)
-                .put("/booking/" + bookingId);
+                .put(ApiConfig.BASE_URL + "/booking/" + bookingId);
     }
 
     @When("I delete the booking")
     public void iDeleteTheBooking() {
         response = given()
                 .cookie("token", token)
-                .delete("/booking/" + bookingId);
+                .delete(ApiConfig.BASE_URL + "/booking/" + bookingId);
     }
 
     @When("I delete the booking without a token")
     public void iDeleteTheBookingWithoutToken() {
-        response = given().delete("/booking/" + bookingId);
+        response = given().delete(ApiConfig.BASE_URL + "/booking/" + bookingId);
     }
 
     @Then("the status code is {int}")

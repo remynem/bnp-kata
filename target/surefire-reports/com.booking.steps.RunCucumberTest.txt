@@ -1,0 +1,22 @@
+-------------------------------------------------------------------------------
+Test set: com.booking.steps.RunCucumberTest
+-------------------------------------------------------------------------------
+Tests run: 12, Failures: 3, Errors: 0, Skipped: 0, Time elapsed: 11.139 s <<< FAILURE! - in com.booking.steps.RunCucumberTest
+Get a booking when authenticated(Booking API tests)  Time elapsed: 0.539 s  <<< FAILURE!
+java.lang.AssertionError: 
+
+Expected: <200>
+     but: was <404>
+
+Update a booking when authenticated(Booking API tests)  Time elapsed: 0.277 s  <<< FAILURE!
+java.lang.AssertionError: 
+
+Expected: <200>
+     but: was <404>
+
+Delete a booking(Booking API tests)  Time elapsed: 0.314 s  <<< FAILURE!
+java.lang.AssertionError: 
+
+Expected: <201>
+     but: was <404>
+
