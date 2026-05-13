@@ -52,6 +52,7 @@ Feature: Booking API tests
     And I update the booking
     Then the status code is 200
     And the booking has firstname "Jane"
+    And the response matches the "booking-update-response" schema
 
   Scenario: Update without token should fail
     Given I am logged in as admin
