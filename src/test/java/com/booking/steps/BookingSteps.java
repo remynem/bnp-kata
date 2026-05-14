@@ -22,10 +22,7 @@ public class BookingSteps {
     static {
         RestAssured.baseURI = "https://automationintesting.online/api";
     }
-    // 840 unique year-month slots (70 years × 12 months).
-    // base shifts by the current second, so runs started at different seconds
-    // never share the same slot. The API resets every 10 min (600s < 840s),
-    // so collisions with data from a previous reset window can't happen.
+
     private static final java.util.concurrent.atomic.AtomicInteger callCounter =
             new java.util.concurrent.atomic.AtomicInteger(0);
 
